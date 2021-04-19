@@ -52,10 +52,35 @@
 #include "constants/rgb.h"
 #include "data.h"
 #include "constants/party_menu.h"
+#include "printf.h"
+#include "mgba.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
 extern const u8* const gBattleScriptsForMoveEffects[];
+
+struct MoveBoosted
+{
+ u8 id;
+ u8 levelBoosted[3];
+ u8 valueBoosted[3];
+};
+
+#define MOVE_COUNT 2
+
+static const struct MoveBoosted sMoveBoosted[MOVE_COUNT] =
+{
+    {
+        .id = MOVE_SCRATCH,
+        .levelBoosted = {6,7,8},
+        .valueBoosted = {10,20,30},
+    },
+    {
+        .id = MOVE_TACKLE,
+        .levelBoosted = {6,7,8},
+        .valueBoosted = {10,20,30},
+    }
+};
 
 #define DEFENDER_IS_PROTECTED ((gProtectStructs[gBattlerTarget].protected) && (gBattleMoves[gCurrentMove].flags & FLAG_PROTECT_AFFECTED))
 
@@ -1279,6 +1304,7 @@ static void Cmd_critcalc(void)
     gBattlescriptCurrInstr++;
 }
 
+
 static void Cmd_damagecalc(void)
 {
     u16 sideStatus = gSideStatuses[GET_BATTLER_SIDE(gBattlerTarget)];
@@ -1286,6 +1312,8 @@ static void Cmd_damagecalc(void)
                                             sideStatus, gDynamicBasePower,
                                             gBattleStruct->dynamicMoveType, gBattlerAttacker, gBattlerTarget);
     gBattleMoveDamage = gBattleMoveDamage * gCritMultiplier * gBattleScripting.dmgMultiplier;
+
+    mgba_printf(MGBA_LOG_DEBUG, "%d", gBattleMovePower);
 
     if (gStatuses3[gBattlerAttacker] & STATUS3_CHARGED_UP && gBattleMoves[gCurrentMove].type == TYPE_ELECTRIC)
         gBattleMoveDamage *= 2;

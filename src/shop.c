@@ -719,6 +719,16 @@ static void BuyMenuDrawMapGraphics(void)
     BuyMenuDrawMapBg();
 }
 
+static bool8 IsMetatileLayerEmpty(const u16 *src)
+{
+    u32 i = 0;
+    for(i = 0; i < 4; ++i)
+    {
+        if((src[i] & 0x3FF) != 0)
+            return FALSE;
+    }
+    return TRUE;
+}
 static void BuyMenuDrawMapBg(void)
 {
     s16 i;
@@ -734,49 +744,62 @@ static void BuyMenuDrawMapBg(void)
     x -= 4;
     y -= 4;
 
-    for (j = 0; j < 10; j++)
-    {
-        for (i = 0; i < 15; i++)
-        {
-            metatile = MapGridGetMetatileIdAt(x + i, y + j);
-            if (BuyMenuCheckForOverlapWithMenuBg(i, j) == TRUE)
+    for (i = 0; i < 15; i++)
+         {
+             metatile = MapGridGetMetatileIdAt(x + i, y + j);
+             if (BuyMenuCheckForOverlapWithMenuBg(i, j) == TRUE)
+             {
                 metatileLayerType = MapGridGetMetatileLayerTypeAt(x + i, y + j);
-            else
-                metatileLayerType = 1;
-
-            if (metatile < NUM_METATILES_IN_PRIMARY)
-            {
+                metatileLayerType = 0;
+             }else{
+                 metatileLayerType = 1;
+              }   
+ 
+             if (metatile < NUM_METATILES_IN_PRIMARY)
+             {
                 BuyMenuDrawMapMetatile(i, j, (u16*)mapLayout->primaryTileset->metatiles + metatile * 8, metatileLayerType);
-            }
-            else
-            {
+                BuyMenuDrawMapMetatile(i, j, (u16*)mapLayout->primaryTileset->metatiles + metatile * 12, metatileLayerType);
+             }
+             else
+             {
                 BuyMenuDrawMapMetatile(i, j, (u16*)mapLayout->secondaryTileset->metatiles + ((metatile - NUM_METATILES_IN_PRIMARY) * 8), metatileLayerType);
-            }
-        }
-    }
+                BuyMenuDrawMapMetatile(i, j, (u16*)mapLayout->secondaryTileset->metatiles + ((metatile - NUM_METATILES_IN_PRIMARY) * 12), metatileLayerType);
+             }
+         }
 }
 
-static void BuyMenuDrawMapMetatile(s16 x, s16 y, const u16 *src, u8 metatileLayerType)
-{
-    u16 offset1 = x * 2;
-    u16 offset2 = y * 64;
 
-    switch (metatileLayerType)
+
+  static void BuyMenuDrawMapMetatile(s16 x, s16 y, const u16 *src, u8 metatileLayerType)
+ {
+     u16 offset1 = x * 2;
+     u16 offset2 = y * 64;
+
+    if(metatileLayerType == 0)
+     {
+        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[2], offset1, offset2, src + 0);
+         BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[3], offset1, offset2, src + 4);
+        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[1], offset1, offset2, src + 8);
+    }
+    else
     {
-    case 0:
-        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[3], offset1, offset2, src);
-        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[1], offset1, offset2, src + 4);
-        break;
-    case 1:
-        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[2], offset1, offset2, src);
-        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[3], offset1, offset2, src + 4);
-        break;
-    case 2:
-        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[2], offset1, offset2, src);
-        BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[1], offset1, offset2, src + 4);
-        break;
-    }
-}
+        if(IsMetatileLayerEmpty(src))
+        {
+            BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[2], offset1, offset2, src + 4);
+            BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[3], offset1, offset2, src + 8);
+        }
+        else if(IsMetatileLayerEmpty(src + 4))
+        {
+            BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[2], offset1, offset2, src);
+            BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[3], offset1, offset2, src + 8);
+        }
+        else if(IsMetatileLayerEmpty(src + 8))
+        {
+            BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[2], offset1, offset2, src);
+            BuyMenuDrawMapMetatileLayer(gShopDataPtr->tilemapBuffers[3], offset1, offset2, src + 4);
+        }
+     }
+ }
 
 static void BuyMenuDrawMapMetatileLayer(u16 *dest, s16 offset1, s16 offset2, const u16 *src)
 {

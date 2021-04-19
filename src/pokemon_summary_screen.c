@@ -46,6 +46,8 @@
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "printf.h"
+#include "mgba.h"
 
 // Screen titles (upper left)
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TITLE 0
@@ -3510,6 +3512,8 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 static void PrintMovePowerAndAccuracy(u16 moveIndex)
 {
     const u8 *text;
+    struct PokeSummary *summary = &sMonSummaryScreen->summary; //extraemos el poke del sumario
+    u8 boosteo = incrementoPotencia(moveIndex, summary->level); // esto lo hacemos para mostrar en el sumario el poder base del ataque + boosteo
     if (moveIndex != 0)
     {
         FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
@@ -3520,7 +3524,7 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
         }
         else
         {
-            ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[moveIndex].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+            ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[moveIndex].power+boosteo, STR_CONV_MODE_RIGHT_ALIGN, 3); //agusto
             text = gStringVar1;
         }
 
@@ -3537,6 +3541,7 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
         }
 
         PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, text, 53, 17, 0, 0);
+      //  mgba_printf(MGBA_LOG_DEBUG, "%d", bosteo);
     }
 }
 

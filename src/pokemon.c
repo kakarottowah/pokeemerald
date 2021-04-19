@@ -61,6 +61,7 @@ static void Task_PlayMapChosenOrBattleBGM(u8 taskId);
 static bool8 ShouldGetStatBadgeBoost(u16 flagId, u8 battlerId);
 static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
 static bool8 ShouldSkipFriendshipChange(void);
+u8 incrementoPotencia(u16 move, u8 level);
 
 // EWRAM vars
 EWRAM_DATA static u8 sLearningMoveTableID = 0;
@@ -70,6 +71,29 @@ EWRAM_DATA struct Pokemon gPlayerParty[PARTY_SIZE] = {0};
 EWRAM_DATA struct Pokemon gEnemyParty[PARTY_SIZE] = {0};
 EWRAM_DATA struct SpriteTemplate gMultiuseSpriteTemplate = {0};
 EWRAM_DATA struct Unknown_806F160_Struct *gUnknown_020249B4[2] = {NULL};
+
+struct MoveBoosted
+{
+ u8 id;
+ u8 levelBoosted[3];
+ u8 valueBoosted[3];
+};
+
+#define MOVE_COUNT 2
+
+static const struct MoveBoosted sMoveBoosted[MOVE_COUNT] =
+{
+    {
+        .id = MOVE_SCRATCH,
+        .levelBoosted = {6,7,8},
+        .valueBoosted = {10,20,30},
+    },
+    {
+        .id = MOVE_TACKLE,
+        .levelBoosted = {6,7,8},
+        .valueBoosted = {10,20,30},
+    }
+};
 
 // const rom data
 #include "data/battle_moves.h"
@@ -3076,6 +3100,18 @@ void DeleteFirstMoveAndGiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move)
     SetBoxMonData(boxMon, MON_DATA_PP_BONUSES, &ppBonuses);
 }
 
+ u8 incrementoPotencia(u16 move, u8 level){
+    int i, j;
+    u8 boost = 0;
+
+    for (i=0; i < ARRAY_COUNT(sMoveBoosted); i++)
+        if (move == sMoveBoosted[i].id)
+            for (j=0; j < ARRAY_COUNT(sMoveBoosted[i].levelBoosted); j++)
+                if (level >= sMoveBoosted[i].levelBoosted[j])
+                    boost = sMoveBoosted[i].valueBoosted[j];
+    return boost;
+}
+
 #define APPLY_STAT_MOD(var, mon, stat, statIndex)                                   \
 {                                                                                   \
     (var) = (stat) * (gStatStageRatios)[(mon)->statStages[(statIndex)]][0];         \
@@ -3095,10 +3131,17 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     u8 attackerHoldEffect;
     u8 attackerHoldEffectParam;
 
+    u8 bosteo = incrementoPotencia(gCurrentMove, gBattleMons[gBattlerAttacker].level);
     if (!powerOverride)
-        gBattleMovePower = gBattleMoves[move].power;
-    else
-        gBattleMovePower = powerOverride;
+    {  
+        if(gBattleMovePower == 0){
+            gBattleMovePower = gBattleMoves[move].power;
+        }else{
+            gBattleMovePower = gBattleMoves[move].power+bosteo;
+        }
+    }else{
+        gBattleMovePower = powerOverride+bosteo;
+    }
 
     if (!typeOverride)
         type = gBattleMoves[move].type;

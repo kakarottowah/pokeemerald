@@ -25,6 +25,7 @@
 #include "mevent.h"
 #include "match_call.h"
 #include "menu.h"
+#include "norman_scene.h"
 #include "overworld.h"
 #include "party_menu.h"
 #include "pokeblock.h"
@@ -3893,6 +3894,12 @@ void Script_DoRayquazaScene(void)
         // Rayquaza arrives scene
         DoRayquazaScene(1, FALSE, CB2_ReturnToFieldContinueScriptPlayMapMusic);
     }
+}
+
+//Escena norman
+void Script_DoNormanScene(void)
+{
+        DoNormanScene(0,CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
 #define playCount data[0]

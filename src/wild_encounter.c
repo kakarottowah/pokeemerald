@@ -22,6 +22,11 @@
 #include "constants/layouts.h"
 #include "constants/maps.h"
 #include "constants/weather.h"
+#include "printf.h"
+#include "mgba.h"
+#include "data.h"                 // for gSpeciesNames, which maps species number to species name.
+#include "../gflib/string_util.h" // for ConvertToAscii()
+#include "battle.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -369,7 +374,10 @@ static void CreateWildMon(u16 species, u8 level)
         return;
     }
 
+   // mgba_printf(MGBA_LOG_DEBUG, "%d %s", species, ConvertToAscii(gSpeciesNames[species]));
+   
     CreateMonWithNature(&gEnemyParty[0], species, level, 32, PickWildMonNature());
+    
 }
 
 enum

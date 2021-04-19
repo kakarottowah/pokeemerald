@@ -4,6 +4,7 @@
 #include "link.h"
 #include "link_rfu.h"
 #include "librfu.h"
+#include "mgba.h"
 #include "m4a.h"
 #include "bg.h"
 #include "rtc.h"
@@ -108,6 +109,7 @@ void AgbMain()
     ClearDma3Requests();
     ResetBgs();
     SetDefaultFontsPointer();
+    mgba_open();
     InitHeap(gHeap, HEAP_SIZE);
 
     gSoftResetDisabled = FALSE;

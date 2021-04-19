@@ -53,6 +53,11 @@ InsideOfTruck_EventScript_MovingBox:: @ 823BF6C
 	msgbox InsideOfTruck_Text_BoxPrintedWithMonLogo, MSGBOX_SIGN
 	end
 
+Script_NormanScene::
+	special Script_DoNormanScene
+	waitstate
+	end
+
 InsideOfTruck_Text_BoxPrintedWithMonLogo: @ 823BF75
 	.string "The box is printed with a POKéMON logo.\p"
 	.string "It's a POKéMON brand moving and\n"

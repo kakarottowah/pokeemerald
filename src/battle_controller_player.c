@@ -19,6 +19,8 @@
 #include "party_menu.h"
 #include "pokeball.h"
 #include "pokemon.h"
+#include "printf.h"
+#include "mgba.h"
 #include "random.h"
 #include "recorded_battle.h"
 #include "reshow_battle_screen.h"
@@ -470,6 +472,9 @@ static void HandleInputChooseTarget(void)
 static void HandleInputChooseMove(void)
 {
     bool32 canSelectTarget = FALSE;
+    u16 species = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES);
+    
+    
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][4]);
 
     if (JOY_HELD(DPAD_ANY) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
@@ -492,6 +497,7 @@ static void HandleInputChooseMove(void)
         else
         {
             moveTarget = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].target;
+            
         }
 
         if (moveTarget & MOVE_TARGET_USER)
@@ -538,6 +544,8 @@ static void HandleInputChooseMove(void)
 
             gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCb_ShowAsMoveTarget;
         }
+        
+       // mgba_printf(MGBA_LOG_DEBUG, "%d %s", moveInfo->moves[gMoveSelectionCursor[gActiveBattler]], ConvertToAscii(gSpeciesNames[species]));
     }
     else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
     {
@@ -611,6 +619,7 @@ static void HandleInputChooseMove(void)
             gBattlerControllerFuncs[gActiveBattler] = HandleMoveSwitching;
         }
     }
+    
 }
 
 u32 sub_8057FBC(void) // unused
