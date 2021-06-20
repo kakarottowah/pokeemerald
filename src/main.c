@@ -24,6 +24,7 @@
 #include "intro.h"
 #include "main.h"
 #include "trainer_hill.h"
+#include "constants/rgb.h"
 
 static void VBlankIntr(void);
 static void HBlankIntr(void);
@@ -91,7 +92,7 @@ void AgbMain()
 #if !MODERN
     RegisterRamReset(RESET_ALL);
 #endif //MODERN
-    *(vu16 *)BG_PLTT = 0x7FFF;
+    *(vu16 *)BG_PLTT = RGB_WHITE; // Set the backdrop to white on startup
     InitGpuRegManager();
     REG_WAITCNT = WAITCNT_PREFETCH_ENABLE | WAITCNT_WS0_S_1 | WAITCNT_WS0_N_3;
     InitKeys();
@@ -133,7 +134,7 @@ void AgbMain()
             DoSoftReset();
         }
 
-        if (sub_8087634() == 1)
+        if (Overworld_SendKeysToLinkIsRunning() == TRUE)
         {
             gLinkTransferringData = TRUE;
             UpdateLinkAndCallCallbacks();
@@ -144,7 +145,7 @@ void AgbMain()
             gLinkTransferringData = FALSE;
             UpdateLinkAndCallCallbacks();
 
-            if (sub_80875C8() == 1)
+            if (Overworld_RecvKeysFromLinkIsRunning() == TRUE)
             {
                 gMain.newKeys = 0;
                 ClearSpriteCopyRequests();
@@ -300,7 +301,7 @@ void InitIntrHandlers(void)
 
     REG_IME = 1;
 
-    EnableInterrupts(0x1);
+    EnableInterrupts(INTR_FLAG_VBLANK);
 }
 
 void SetVBlankCallback(IntrCallback callback)
@@ -352,7 +353,7 @@ static void VBlankIntr(void)
     gPcmDmaCounter = gSoundInfo.pcmDmaCounter;
 
     m4aSoundMain();
-    sub_8033648();
+    TryReceiveLinkBattleData();
 
     if (!gMain.inBattle || !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_RECORDED)))
         Random();
