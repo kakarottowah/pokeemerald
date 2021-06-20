@@ -1749,3 +1749,43 @@ gTilesetPalettes_gTileset_General2::
 	.align 2
 gTilesetTiles_gTileset_General2::
 	.incbin "data/tilesets/primary/gtileset_general2/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_CiudadRaiz::
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/ciudadraiz/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_CiudadRaiz::
+	.incbin "data/tilesets/secondary/ciudadraiz/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_General3::
+	.incbin "data/tilesets/primary/general3/palettes/00.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/01.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/02.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/03.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/04.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/05.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/06.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/07.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/08.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/09.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/10.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/11.gbapal"
+	.incbin "data/tilesets/primary/general3/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_General3::
+	.incbin "data/tilesets/primary/general3/tiles.4bpp.lz"

@@ -565,3 +565,17 @@ gMetatiles_gTileset_General2::
 	.align 1
 gMetatileAttributes_gTileset_General2::
 	.incbin "data/tilesets/primary/gtileset_general2/metatile_attributes.bin"
+	.align 1
+gMetatiles_CiudadRaiz::
+	.incbin "data/tilesets/secondary/ciudadraiz/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_CiudadRaiz::
+	.incbin "data/tilesets/secondary/ciudadraiz/metatile_attributes.bin"
+	.align 1
+gMetatiles_General3::
+	.incbin "data/tilesets/primary/general3/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_General3::
+	.incbin "data/tilesets/primary/general3/metatile_attributes.bin"

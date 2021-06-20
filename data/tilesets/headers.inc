@@ -841,3 +841,25 @@ gTileset_gTileset_General2::
 	.4byte gMetatiles_gTileset_General2
 	.4byte gMetatileAttributes_gTileset_General2
 	.4byte NULL
+
+	.align 2
+gTileset_CiudadRaiz::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_CiudadRaiz
+	.4byte gTilesetPalettes_CiudadRaiz
+	.4byte gMetatiles_CiudadRaiz
+	.4byte gMetatileAttributes_CiudadRaiz
+	.4byte NULL
+
+	.align 2
+gTileset_General3::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_General3
+	.4byte gTilesetPalettes_General3
+	.4byte gMetatiles_General3
+	.4byte gMetatileAttributes_General3
+	.4byte NULL

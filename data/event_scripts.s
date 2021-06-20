@@ -1063,3 +1063,9 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	.include "data/text/norman_speech.inc"
 
 	.include "data/maps/CiudadRaiz/scripts.inc"
+
+	.include "data/maps/MuelleAil/scripts.inc"
+
+	.include "data/maps/Ruta101/scripts.inc"
+
+	.include "data/maps/Ruta102/scripts.inc"

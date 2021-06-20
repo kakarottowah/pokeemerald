@@ -253,11 +253,31 @@ static const struct OamData sMonOamData2 =
     .paletteNum = 0,
     .affineParam = 0,
 };
+static const union AnimCmd smon_AnimNulo[] = //animacion mirando hacia ti
+{
+    ANIMCMD_FRAME(0, 15),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd smon_AnimNulo2[] = //animacion mirando hacia el paisaje
+{
+    ANIMCMD_FRAME(192, 15),
+    ANIMCMD_JUMP(192),
+};
 
 static const union AnimCmd smon_Anim0[] =
 {
     ANIMCMD_FRAME(0, 15),
-    ANIMCMD_JUMP(0),
+    ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(0, 15),
+    ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(0, 15),
+    ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(0, 15),
+    ANIMCMD_END,
 };
 // Esto anima el sprite cogiendo los frames, en este caso 15 es la velocidad
 static const union AnimCmd smon_Anim1[] =
@@ -273,18 +293,77 @@ static const union AnimCmd smon_Anim1[] =
     ANIMCMD_JUMP(0),
 };
 
-static const union AnimCmd smon_Anim3[] =
+static const union AnimCmd smon_Anim3[] = //3 parte antes del dialogo
 {
-    ANIMCMD_FRAME(128, 15),
-    ANIMCMD_FRAME(128, 15),
-    ANIMCMD_FRAME(128, 15),
-    ANIMCMD_FRAME(64, 15),
-    ANIMCMD_FRAME(0, 15),
-    ANIMCMD_FRAME(0, 15),
-    ANIMCMD_JUMP(0),
+    ANIMCMD_FRAME(0, 10),
+    ANIMCMD_FRAME(0, 10),
+    ANIMCMD_FRAME(0, 10),
+    ANIMCMD_FRAME(192, 10),
+    ANIMCMD_FRAME(256, 10),
+    ANIMCMD_END,
 };
 
-enum {PRIMERO, SEGUNDO, TERCERO};
+static const union AnimCmd smon_Anim4[] = //4 parte durante el dialogo
+{
+    ANIMCMD_FRAME(256, 15),
+    ANIMCMD_FRAME(320, 15),
+    ANIMCMD_FRAME(256, 15),
+    ANIMCMD_FRAME(320, 15),
+    ANIMCMD_FRAME(256, 15),
+    ANIMCMD_FRAME(320, 15),
+    ANIMCMD_FRAME(256, 15),
+    ANIMCMD_FRAME(320, 15),
+    ANIMCMD_FRAME(256, 15),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd smon_Anim5[] = //4 parte durante el dialogo
+{
+    ANIMCMD_FRAME(128, 10),
+   ANIMCMD_FRAME(128, 10),
+   ANIMCMD_FRAME(128, 10),
+    ANIMCMD_FRAME(64, 10),
+    ANIMCMD_FRAME(0, 10),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd smon_Anim6[] = //mira desde el coche hacia nosotros
+{
+    ANIMCMD_FRAME(192, 15),
+   ANIMCMD_FRAME(0, 15),
+   ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(0, 15),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd smon_Anim6B[] = //mira desde el coche hacia nosotros SPRITE 2
+{
+   ANIMCMD_FRAME(64, 15),
+    ANIMCMD_FRAME(128, 15),
+   ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_FRAME(128, 15),
+    ANIMCMD_END,
+};
+
+enum {CERO, CERO2, PRIMERO, SEGUNDO, TERCERO, CUARTO, QUINTO, SEXTO,SEXTO2};
 
 static const union AnimCmd *const smon_AnimTable[] =
 {
@@ -297,11 +376,23 @@ static const union AnimCmd *const smon_AnimTable[] =
             StartSpriteAnim(&gSprites[SpriteID], PRIMERO); ya que es la posición 0
     */
 
+    [CERO] = smon_AnimNulo,
+
+    [CERO2] = smon_AnimNulo2,
+
     [PRIMERO] = smon_Anim0,
     //smon_Anim0,
     [SEGUNDO] = smon_Anim1,
     //smon_Anim1,
     [TERCERO] = smon_Anim3,
+
+    [CUARTO] = smon_Anim4,
+
+    [QUINTO] = smon_Anim5,
+
+    [SEXTO] = smon_Anim6,
+
+    [SEXTO2] = smon_Anim6B,
 };
 
 static const struct SpriteTemplate sMonSpriteTemplate =
@@ -392,7 +483,7 @@ static void LoadNormanBgs ()
 
   LoadCompressedSpriteSheet(&sSpriteSheet_Mon2[0]);
    LoadCompressedSpritePalette(sSpritePal_Mon2);
-  SpriteID2 = CreateSprite(&sMonSpriteTemplate2, 208,32,0);  
+  //SpriteID2 = CreateSprite(&sMonSpriteTemplate2, 208,32,0);  
 
     ShowBg(2);
     ShowBg(0);
@@ -555,11 +646,152 @@ static void TaskFaseSiguiente(u8 taskId)
 }
 
 
-static void Task_Texto_Fase2(u8 taskId){
+static void Task_Texto_Fase2(u8 taskId){ // hijo estas dormido
     
     InitMyTextWindows();
     InitMyTextsEmerald();  
     gTasks[taskId].func = TaskFaseSiguiente;
+}
+
+static void TaskFaseDesvanecer2(u8 taskId){
+      if (gTasks[taskId].tTimer){
+        gTasks[taskId].tTimer--;
+    }else{
+         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK); 
+         gTasks[taskId].func = TaskFaseSiguiente3texto;
+    }    
+}
+static void TaskFaseDesvanecer(u8 taskId){
+    if(!RunTextPrintersAndIsPrinter0Active()){
+        ClearDialogWindowAndFrame(0, 1);
+        gTasks[taskId].tTimer= 0x60;
+        gTasks[taskId].func = TaskFaseDesvanecer2;
+    }
+    
+}
+
+static void TaskTextoNormanTerceraFasee(u8 taskId){
+    StartSpriteAnim(&gSprites[SpriteID], CUARTO); 
+     InitMyTextWindows();
+     ShowFieldMessage(gText_Norman3d);
+    gTasks[taskId].func = TaskFaseDesvanecer;
+}
+
+static void TaskTextoNormanTerceraFasee1(u8 taskId){
+    if (gTasks[taskId].tTimer){
+        gTasks[taskId].tTimer--;
+    }else{
+          
+         gTasks[taskId].func = TaskTextoNormanTerceraFasee;
+    } 
+     
+}
+
+static void TaskTextoNormanTerceraFased(u8 taskId){
+    if(!RunTextPrintersAndIsPrinter0Active()){
+        ClearDialogWindowAndFrame(0, 1);
+        gTasks[taskId].tTimer= 0x60;
+        gTasks[taskId].func = TaskTextoNormanTerceraFasee1;
+    }
+}
+
+static void TaskTextoNormanTerceraFasec(u8 taskId){
+    StartSpriteAnim(&gSprites[SpriteID], CUARTO); 
+     InitMyTextWindows();
+     ShowFieldMessage(gText_Norman3c);
+    gTasks[taskId].func = TaskTextoNormanTerceraFased;
+}
+static void TaskTextoNormanTerceraFaseb(u8 taskId){
+    if (gTasks[taskId].tTimer){
+        gTasks[taskId].tTimer--;
+    }else{
+          
+         gTasks[taskId].func = TaskTextoNormanTerceraFasec;
+    } 
+     
+}
+
+static void TaskTextoNormanTerceraFase(u8 taskId){
+    if(!RunTextPrintersAndIsPrinter0Active()){
+        ClearDialogWindowAndFrame(0, 1);
+         StartSpriteAnim(&gSprites[SpriteID], TERCERO);    
+    StartSpriteAnim(&gSprites[SpriteID2], QUINTO);
+        gTasks[taskId].tTimer= 0xA0;
+        gTasks[taskId].func = TaskTextoNormanTerceraFaseb;
+    }
+}
+
+static void TaskTextoNormanSegundaFaseb(u8 taskId){
+     StartSpriteAnim(&gSprites[SpriteID],SEXTO);
+     StartSpriteAnim(&gSprites[SpriteID2],SEXTO2);
+     InitMyTextWindows();
+     ShowFieldMessage(gText_Norman3b);
+    gTasks[taskId].func = TaskTextoNormanTerceraFase;
+}
+static void TaskTextoNormanSegundaFase(u8 taskId){
+    // StartSpriteAnim(&gSprites[SpriteID],CUARTO);
+    // ShowFieldMessage(gText_Norman3b);
+    // gTasks[taskId].func = TaskFaseSiguiente3texto;
+    if(!RunTextPrintersAndIsPrinter0Active()){
+        ClearDialogWindowAndFrame(0, 1);
+        gTasks[taskId].tTimer= 0xA0;
+        gTasks[taskId].func = TaskTextoNormanSegundaFaseb;
+    }
+}
+static void TaskFaseNormanImaginandoTexto(u8 taskId){
+    StartSpriteAnim(&gSprites[SpriteID], CUARTO); 
+    InitMyTextWindows();
+    ShowFieldMessage(gText_Norman3);   
+    gTasks[taskId].func = TaskTextoNormanSegundaFase;
+}
+
+static void TaskFaseNormanImaginando(u8 taskId){
+    if (gTasks[taskId].tTimer){
+        gTasks[taskId].tTimer--;
+    }else{
+           
+         gTasks[taskId].func = TaskFaseNormanImaginandoTexto;
+    } 
+}
+
+static void TaskFaseSiguienteCara2Texto(u8 taskId){
+    SpriteID2 = CreateSprite(&sMonSpriteTemplate2, 208,32,0);
+    StartSpriteAnim(&gSprites[SpriteID], TERCERO);    
+    StartSpriteAnim(&gSprites[SpriteID2], QUINTO);
+    gTasks[taskId].tTimer= 0xA0;
+    gTasks[taskId].func = TaskFaseNormanImaginando;
+}
+
+static void TaskFaseSiguienteCara2(u8 taskId){
+     if(!RunTextPrintersAndIsPrinter0Active()){
+       ClearDialogWindowAndFrame(0, 1);
+        gTasks[taskId].tTimer= 0xA0;
+        gTasks[taskId].func = TaskFaseSiguienteCara2Texto;
+    }
+}
+
+static void TaskFaseSiguienteCara2previo(u8 taskId){
+    gTasks[taskId].func = TaskFaseSiguienteCara2;
+}    
+
+static void TaskFaseSiguienteCara(u8 taskId){   
+    StartSpriteAnim(&gSprites[SpriteID], PRIMERO);
+    gTasks[taskId].func = TaskFaseSiguienteCara2previo;
+}
+
+static void Task_Texto_Fase4(u8 taskId){ // ha sido un duro dia de mudanzas
+    
+    InitMyTextWindows();
+    ShowFieldMessage(gText_Norman2);   
+    gTasks[taskId].func = TaskFaseSiguienteCara;
+}
+
+static void Task_Texto_Fase3(u8 taskId){ //texto despues de hijo estas dormido
+    if(gTasks[taskId].tTimer){
+        gTasks[taskId].tTimer--;
+    }else{
+        gTasks[taskId].func = Task_Texto_Fase4;
+    }
 }
 
 static void Task_Texto_Fase(u8 taskId){
@@ -572,6 +804,11 @@ static void Task_Texto_Fase(u8 taskId){
 static void Task_TextoLento(u8 taskId){
     gTasks[taskId].tTimer= 0xA0;
     gTasks[taskId].func = Task_Texto_Fase;
+}
+
+static void Task_TextoLento2(u8 taskId){ //timer despues de hijo estas dormido
+    gTasks[taskId].tTimer= 0x70;
+    gTasks[taskId].func = Task_Texto_Fase3;
 }
 
 void Task_timerVibracion1_restar(u8 taskId){
@@ -647,9 +884,11 @@ static void CB2_InitNormanMenu2 ()
         case 2:
             SetVBlankCallback(VBlank_CB_Norman);
             FadeInFromBlack();
-            StartSpriteAnim(&gSprites[SpriteID], SEGUNDO);
-            StartSpriteAnim(&gSprites[SpriteID2], TERCERO);
+
+            //StartSpriteAnim(&gSprites[SpriteID], SEGUNDO);
+            //StartSpriteAnim(&gSprites[SpriteID2], TERCERO);
             SetMainCallback2(CB2_NormanScene);
+            CreateTask(Task_TextoLento2,0);
             CreateTask(Task_HandleKeyPressed,0);
             break;
     }

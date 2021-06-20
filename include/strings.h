@@ -3018,6 +3018,11 @@ extern const u8 gText_Cancel3[];
 // Norman Scene
 extern const u8 gText_Norman1[];
 extern const u8 gText_Norman2[];
+extern const u8 gText_Norman3[];
+extern const u8 gText_Norman3b[];
+extern const u8 gText_Norman3c[];
+extern const u8 gText_Norman3d[];
+extern const u8 gText_Norman4[];
 
 #endif // GUARD_STRINGS_H
 

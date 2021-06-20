@@ -4415,11 +4415,41 @@
       "id": "LAYOUT_CIUDAD_RAIZ",
       "name": "CiudadRaiz_Layout",
       "width": 64,
-      "height": 64,
+      "height": 42,
       "primary_tileset": "gTileset_gTileset_General2",
-      "secondary_tileset": "gTileset_Petalburg",
+      "secondary_tileset": "gTileset_CiudadRaiz",
       "border_filepath": "data/layouts/CiudadRaiz/border.bin",
       "blockdata_filepath": "data/layouts/CiudadRaiz/map.bin"
+    },
+    {
+      "id": "LAYOUT_MUELLE_AIL",
+      "name": "MuelleAil_Layout",
+      "width": 64,
+      "height": 42,
+      "primary_tileset": "gTileset_General3",
+      "secondary_tileset": "gTileset_CiudadRaiz",
+      "border_filepath": "data/layouts/MuelleAil/border.bin",
+      "blockdata_filepath": "data/layouts/MuelleAil/map.bin"
+    },
+    {
+      "id": "LAYOUT_RUTA101",
+      "name": "Ruta101_Layout",
+      "width": 64,
+      "height": 20,
+      "primary_tileset": "gTileset_gTileset_General2",
+      "secondary_tileset": "gTileset_CiudadRaiz",
+      "border_filepath": "data/layouts/Ruta101/border.bin",
+      "blockdata_filepath": "data/layouts/Ruta101/map.bin"
+    },
+    {
+      "id": "LAYOUT_RUTA102",
+      "name": "Ruta102_Layout",
+      "width": 64,
+      "height": 48,
+      "primary_tileset": "gTileset_General3",
+      "secondary_tileset": "gTileset_CiudadRaiz",
+      "border_filepath": "data/layouts/Ruta102/border.bin",
+      "blockdata_filepath": "data/layouts/Ruta102/map.bin"
     }
   ]
 }

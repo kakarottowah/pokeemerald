@@ -60,6 +60,9 @@
 #define MAP_UNDERWATER_ROUTE105 (55 | (0 << 8))
 #define MAP_UNDERWATER_ROUTE125 (56 | (0 << 8))
 #define MAP_CIUDAD_RAIZ         (57 | (0 << 8))
+#define MAP_MUELLE_AIL          (58 | (0 << 8))
+#define MAP_RUTA101             (59 | (0 << 8))
+#define MAP_RUTA102             (60 | (0 << 8))
 
 // Map Group 1
 #define MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_1F    (0 | (1 << 8))
